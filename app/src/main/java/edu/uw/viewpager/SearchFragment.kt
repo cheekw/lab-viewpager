@@ -13,14 +13,15 @@ import android.widget.EditText
 class SearchFragment : Fragment() {
     private var callback: SearchFragment.OnSearchListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_search, container, false)
-        val button = rootView.findViewById<Button>(R.id.btn_search)
-        val editText = rootView.findViewById<EditText>(R.id.txt_search)
-        button.setOnClickListener {
-            callback!!.onSearchSubmitted(editText.text.toString())
+        val rootView = inflater!!.inflate(R.layout.fragment_search, container, false)
+        val searchButton = rootView.findViewById<Button>(R.id.btn_search)
+        searchButton.setOnClickListener {
+            val text = rootView.findViewById<View>(R.id.txt_search) as EditText
+            val searchTerm = text.text.toString()
+            callback!!.onSearchSubmitted(searchTerm)
         }
         return rootView
     }
@@ -41,7 +42,10 @@ class SearchFragment : Fragment() {
 
     companion object {
         fun newInstance(): SearchFragment {
-            return SearchFragment()
+            val args = Bundle()
+            val fragment = SearchFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }
