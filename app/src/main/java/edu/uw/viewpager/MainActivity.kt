@@ -1,14 +1,14 @@
 package edu.uw.viewpager
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.view.PagerAdapter
 
 class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListener,
     SearchFragment.OnSearchListener {
@@ -49,8 +49,12 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListe
         ft.commit()
     }
 
-    abstract class MoviePagerAdapter: FragmentStatePagerAdapter()  {
+    private inner class MoviePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         private lateinit var mPager: ViewPager
+        private val NUM_PAGES = 5
+        override fun getCount(): Int = NUM_PAGES
+
+        override fun getItem(position: Int): Fragment = SearchFragment()
 
         override fun getItemPosition(`object`: Any?): Int {
             return PagerAdapter.POSITION_NONE
