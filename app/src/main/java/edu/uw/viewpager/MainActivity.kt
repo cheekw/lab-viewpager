@@ -1,12 +1,17 @@
 package edu.uw.viewpager
 
 import android.os.Bundle
-import android.support.v4.app.FragmentTransaction
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.view.PagerAdapter
 
-class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListener {
+class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListener,
+    SearchFragment.OnSearchListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +31,15 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListe
         ft.commit()
     }
 
+    override fun onSearchSubmitted(searchTerm: String) {
+        val fragment = SearchFragment.newInstance()
+
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.container, fragment, SEARCH_FRAGMENT_TAG)
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
     override fun onMovieSelected(movie: Movie) {
         val fragment = DetailFragment.newInstance(movie)
 
@@ -35,10 +49,19 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListe
         ft.commit()
     }
 
+    abstract class MoviePagerAdapter: FragmentStatePagerAdapter()  {
+        private lateinit var mPager: ViewPager
+
+        override fun getItemPosition(`object`: Any?): Int {
+            return PagerAdapter.POSITION_NONE
+        }
+    }
+
     companion object {
 
         private val TAG = "MainActivity"
         val MOVIE_LIST_FRAGMENT_TAG = "MoviesListFragment"
         val MOVIE_DETAIL_FRAGMENT_TAG = "DetailFragment"
+        val SEARCH_FRAGMENT_TAG = "SearchFragment"
     }
 }

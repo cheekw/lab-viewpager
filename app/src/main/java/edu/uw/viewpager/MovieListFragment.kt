@@ -11,19 +11,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-
-import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
-
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import java.util.ArrayList
+import java.util.*
 
 
 /**
@@ -47,9 +41,7 @@ class MovieListFragment : Fragment() {
         } catch (e: ClassCastException) {
             throw ClassCastException(context!!.toString() + " must implement OnMovieSelectedListener")
         }
-
     }
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.fragment_movie_list, container, false)
