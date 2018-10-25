@@ -11,18 +11,17 @@ import android.util.Log
 
 class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListener,
     SearchFragment.OnSearchListener {
-    private var searchFragment: SearchFragment? = null
     private var listFragment: MovieListFragment? = null
     private var detailFragment: DetailFragment? = null
+    private var searchFragment: SearchFragment? = null
     private var pager: ViewPager? = null
     private var pagerAdapter: PagerAdapter? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         searchFragment = SearchFragment.newInstance()
-        pager = findViewById<ViewPager>(R.id.pager)
+        pager = findViewById(R.id.pager)
         pagerAdapter = MoviePagerAdapter(supportFragmentManager)
         pager!!.adapter = pagerAdapter
     }
@@ -42,12 +41,10 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieSelectedListe
 
     private inner class MoviePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         override fun getCount(): Int {
-            return if (listFragment == null) {
-                1
-            } else if (detailFragment == null) {
-                2
-            } else {
-                3
+            return when {
+                listFragment == null -> 1
+                detailFragment == null -> 2
+                else -> 3
             }
         }
 

@@ -15,13 +15,12 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         val rootView = inflater!!.inflate(R.layout.fragment_search, container, false)
-        val searchButton = rootView.findViewById<Button>(R.id.btn_search)
-        searchButton.setOnClickListener {
-            val text = rootView.findViewById<View>(R.id.txt_search) as EditText
-            val searchTerm = text.text.toString()
-            callback!!.onSearchSubmitted(searchTerm)
+        val button = rootView.findViewById<Button>(R.id.btn_search)
+        button.setOnClickListener {
+            val searchBar = rootView.findViewById<View>(R.id.txt_search) as EditText
+            val text = searchBar.text.toString()
+            callback!!.onSearchSubmitted(text)
         }
         return rootView
     }
@@ -32,7 +31,6 @@ class SearchFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
         try {
             callback = context as SearchFragment.OnSearchListener?
         } catch (e: ClassCastException) {
@@ -42,10 +40,7 @@ class SearchFragment : Fragment() {
 
     companion object {
         fun newInstance(): SearchFragment {
-            val args = Bundle()
-            val fragment = SearchFragment()
-            fragment.arguments = args
-            return fragment
+            return SearchFragment()
         }
     }
 }
